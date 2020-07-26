@@ -46,7 +46,7 @@ router.get('/',(req, res)=>{
 });
 router.get('/login',      (req, res)=>{res.render('login'      )});
 router.get('/register',   (req, res)=>{res.render('register'   )});
-router.get('/f-password', (req, res)=>{res.render('f-password' )});
+router.get('/forgot', (req, res)=>{res.render('forgot' )});
 router.get('/perfil',     (req, res)=>{res.render('perfil'     )});
 router.get('/carrito',    (req, res)=>{res.render('carrito'    )});
 router.get('/menu',       (req, res)=>{res.render('menu'       )});
@@ -55,8 +55,15 @@ router.get('/categorias', (req, res)=>{res.render('categorias' )});
 router.get('/negocio',    (req, res)=>{res.render('negocio'    )});
 router.get('/editar-menu',(req, res)=>{res.render('editar-menu')});
 
-router.get('/prueba',(req, res)=>{
-    res.send('prueba');
+router.post('/forgot', (req, res)=>{
+ 
+  var emailAddress = req.body.email;
+
+  auth.sendPasswordResetEmail(emailAddress).then(function() {
+    res.send("Correo enviado");
+  }).catch(function(error) {
+    res.send("Ocurrio un error al enviar el correo"+error)
+  });
 });
 
 router.post('/register', (req, res)=>{
