@@ -1,15 +1,16 @@
 const { Router } = require('express');
 const router = Router();
 const admin = require('firebase-admin');
+
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
   databaseURL: "https://usuarios-b6168.firebaseio.com"
 });
 var firebase = require("firebase/app");
-require("firebase/firestore")
-require("firebase/auth")
-require("firebase/storage")
-/**/
+require("firebase/firestore");
+require("firebase/auth");
+require("firebase/storage");
+
 var firebaseConfig = {
     apiKey: "AIzaSyDRSDPUDAaQZqLAtsJtRnex5uhKBqWb5vw",
     authDomain: "usuarios-b6168.firebaseapp.com",
@@ -25,35 +26,35 @@ var firebaseConfig = {
   var db = firebase.firestore();
   var stor = firebase.storage(); 
 
-/*var serviceAccount = require('./mrdeliveryvnz-firebase-adminsdk-qy0up-4688b812d7.json');
- //cert(serviceAccount)
-admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
-    databaseURL: 'https://usuarios-b6168.firebaseio.com/'
-})
-const db = admin.database(); */
-
 //------todas las paginas --------//
 router.get('/',(req, res)=>{ 
     auth.onAuthStateChanged((user)=> {
         if (user) {
-        var data = "user: "+user.email;
+        var data = user.email;
         } else {
-        var data = "No";
+        var data = "";
         }
         res.render('index',{ usuario: data })   
-    });  
+    }); 
+   
 });
-router.get('/login',      (req, res)=>{res.render('login'      )});
-router.get('/register',   (req, res)=>{res.render('register'   )});
-router.get('/forgot', (req, res)=>{res.render('forgot' )});
-router.get('/perfil',     (req, res)=>{res.render('perfil'     )});
+router.get('/logout', (req, res)=>{
+  auth.signOut().then(()=>{
+    res.redirect('/');
+  });
+})
+router.get('/login',(req, res)=>{res.render('login')});
+router.get('/register',(req, res)=>{res.render('register')});
+router.get('/forgot', (req, res)=>{res.render('forgot')});
+router.get('/tienda', (req, res) =>{res.render('tienda')});
+
+/* router.get('/perfil',     (req, res)=>{res.render('perfil'     )});
 router.get('/carrito',    (req, res)=>{res.render('carrito'    )});
 router.get('/menu',       (req, res)=>{res.render('menu'       )});
 router.get('/pagos',      (req, res)=>{res.render('pagos'      )});
 router.get('/categorias', (req, res)=>{res.render('categorias' )});
 router.get('/negocio',    (req, res)=>{res.render('negocio'    )});
-router.get('/editar-menu',(req, res)=>{res.render('editar-menu')});
+router.get('/editar-menu',(req, res)=>{res.render('editar-menu')}); */
 
 router.post('/forgot', (req, res)=>{
  
@@ -66,42 +67,76 @@ router.post('/forgot', (req, res)=>{
   });
 });
 
+//------------------------------registro de usuario -------------------------
 router.post('/register', (req, res)=>{
-    /*//resibir un json y luego registrar devolder algo
-    const user = {
-        nombre: req.body.name,
-        telefono: req.body.telefono,
-        email: req.body.email,
-        clave: req.body.pass
-    }
-    db.ref('users').push(user);
-    console.log(req.body);
+    var e = req.body.email;
+    var p = req.body.password;
+    console.log(e+" - "+p);
+    auth.createUserWithEmailAndPassword(e, p).then(()=>{
+    var id = auth.currentUser.uid; 
+    registro_db(id);
+    })
+    .catch( error => {
+      console.log("Error al crear usuario: "+error.message);
+    });
+  
+function registro_db(id){
+  console.log("Inicio de guardado en la base de datos"+req.body.email);
+  var nombre = req.body.nombre;
+  var telefono = req.body.telefono;
+  var email = req.body.email;
+ 
+  db.collection("usuarios").doc(id).set({
+    nombre:nombre,
+    telefono:telefono,
+    correo:email
+  }).then(()=>{
+    console.log("guardado con exito")
+    //guardar_tienda(id)
+    res.redirect("/");
+  }).catch(e => console.log(e));
+}
+
+
+
+   /*  db.collection("users").doc().set({user})
+    .then(function() {
+        console.log("Usuario agregado con exito a la base de datos");
+    })
+    .catch(function(error) {
+        console.error("Error al escribir documento: ", error);
+    }); */
+    //console.log(req.body);
    
-    var email = req.body.email;
-    var password = req.body.pass;
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-    alert("Registrado con exito");
+  /* var email = req.body.email;
+  var password = req.body.password;
+  var telefono = req.body.telefono;
+  var nombre = req.body.nombre; */
+   /*auth.createUserWithEmailAndPassword(email, password).catch(function(error) {
+    console.log("Registrado con exito en auth");
     var errorCode = error.code;
     var errorMessage = error.message;
-    res.redirect('/');
-    admin.auth().createUser({
-        email: 'user@example.com',
-        emailVerified: false,
-        phoneNumber: '+11234567890',
-        password: 'secretPassword',
-        displayName: 'John Doe',
-        photoURL: 'http://www.example.com/12345678/photo.png',
-        disabled: false
-      })
-        .then(function(userRecord) {
-          // See the UserRecord reference doc for the contents of userRecord.
-          console.log('Successfully created new user:', userRecord.uid);
-        })
-        .catch(function(error) {
-          console.log('Error creating new user:', error);
-        }); */
-  });
-
+    res.redirect('/'); 
+   });*/
+    /* admin.auth().createUser({
+      email: email,
+      emailVerified: false,
+      phoneNumber: telefono,
+      password: password,
+      displayName: nombre,
+      disabled: false
+    })
+    .then(function(userRecord) {
+      // See the UserRecord reference doc for the contents of userRecord.
+      console.log('Successfully created new user:', userRecord.uid);
+      res.end();
+    })
+    .catch(function(error) {
+      console.log('Error creating new user:', error);
+    });  */
+    
+});
+// --------------------fin registro de usuarios -----------------------
 router.post('/login', (req, res)=>{
     var e = req.body.email;
     var p = req.body.password;
@@ -117,5 +152,6 @@ router.post('/login', (req, res)=>{
     res.redirect('/');*/
   });
 
-//comentario
+
+
 module.exports = router;

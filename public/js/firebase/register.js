@@ -1,40 +1,20 @@
 function registro(){
+
     console.log("Inicio del proceso de registro");
     var e =  document.getElementById("email").value;
     var p =  document.getElementById("password").value;
     var p2 = document.getElementById("passwordr").value;
     if(p === p2){
-      /* const getSignUp = async (e,p) =>{
-          try{
-          let body = {
-              email: e,
-              password: p,
-              returnSecureToken:true
-            };
-            let response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDRSDPUDAaQZqLAtsJtRnex5uhKBqWb5vw', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-              },
-              body: JSON.stringify(body)
-            });
-            let result = await response.json();
-            let id = result.localId;
-              */
+      auth.createUserWithEmailAndPassword(e, p).then(()=>{
+      var id = auth.currentUser.uid; 
+      registro_db(id);
+      })
+      .catch( error => {
+      console.log("Error al crear usuario: "+error.message);
+    });
+  }
 
-             auth.createUserWithEmailAndPassword(e, p).then(()=>{
-              
-              var id = auth.currentUser.uid; 
-              registro_db(id);
-             })
-             .catch( error => {
-              alert("Error al crear usuario: "+error.message);
-              return false;
-            });
-            
-            return false
-          }
-        }
+}
        /*  getSignUp(e,p);
         console.log("fetch realizado") 
         return false;

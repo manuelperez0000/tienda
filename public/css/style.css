@@ -1,11 +1,13 @@
 .cover-back{
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.774) 30%,rgba(0, 0, 0, 0.781) 90%), url('../img/back.jpg');
-  background-position: center;
-  background-size: cover;
   position: absolute;
   height: 100%;
   width: 100%;
 }
 .bg-semitransparent{
   background-color: rgba(97, 97, 97, 0.356);
+}
+.alertas{
+  z-index: 999;
+  color:red;
+  background-color: black;
 }

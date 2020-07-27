@@ -5,7 +5,6 @@ const morgan = require("morgan");
 const exphbs = require("express-handlebars");
 const path = require("path");
 
-
 //setings
 app.set("port",process.env.PORT || 4000);
 app.set("views", path.join(__dirname, 'views'));
@@ -22,6 +21,7 @@ app.use(express.urlencoded({extended: false}));
 
 //routes----------------------
 app.use(require('./routes/index.js'));
+
 // end routes---------------
 
 //static files
