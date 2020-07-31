@@ -1,11 +1,12 @@
-const { Router } = require('express');
-const router = Router();
-const admin = require('firebase-admin');
+const express = require('express');
+const router = express.Router();
+//const admin = require('firebase-admin');
 
-admin.initializeApp({
+/* admin.initializeApp({
   credential: admin.credential.applicationDefault(),
   databaseURL: "https://usuarios-b6168.firebaseio.com"
-});
+}); */
+
 var firebase = require("firebase/app");
 require("firebase/firestore");
 require("firebase/auth");
@@ -27,25 +28,24 @@ var firebaseConfig = {
   var stor = firebase.storage(); 
 
 //------todas las paginas --------//
-router.get('/',(req, res)=>{ 
-    auth.onAuthStateChanged((user)=> {
+router.get('/', (req, res)=>{ 
+  /* const task = await auth.onAuthStateChanged((user)=> {
         if (user) {
         var datos = {
           status: "log",
           uid:user.uid,
           uemail:user.email,
           uname:user.displayName
-        }
-        res.render('index',datos)
+        } 
+        
         } else {
           var datos = {}
-        res.render('index',datos)
-        }
         
-       //    
-    }); 
-   
+        } 
+    }); */
+     res.json({"task":"2"})
 });
+
 router.get('/logout', (req, res)=>{
   auth.signOut().then(()=>{
     res.json('saliste');
