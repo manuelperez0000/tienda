@@ -24,11 +24,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        {{#if usuario}}
-            <li><p class="text-white my-1 mx-1">{{ usuario }}</p> </li>
+        {{#if status}}
+            <li><p class="text-white my-1 mx-1">{{ uemail }}</p> </li>
             <li> <a class="text-white my-1 btn mx-1 btn-primary" href="/tienda"><i class="fa fas-envelope"></i> Mi Tienda </a> </li>
             <li> <a class="text-white my-1 btn mx-1 btn-primary" href="/logout">Salir</a> </li>
-          {{else}}
+        {{else}}
           <li class="nav-item">
             <a class="nav-link text-white" href="/login"> Ingresa</a>
           </li>

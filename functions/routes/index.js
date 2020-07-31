@@ -30,17 +30,25 @@ var firebaseConfig = {
 router.get('/',(req, res)=>{ 
     auth.onAuthStateChanged((user)=> {
         if (user) {
-        var data = user.email;
-        } else {
-        var data = "";
+        var datos = {
+          status: "log",
+          uid:user.uid,
+          uemail:user.email,
+          uname:user.displayName
         }
-        res.render('index',{ usuario: data })   
+        res.render('index',datos)
+        } else {
+          var datos = {}
+        res.render('index',datos)
+        }
+        
+       //    
     }); 
    
 });
 router.get('/logout', (req, res)=>{
   auth.signOut().then(()=>{
-    res.redirect('/');
+    res.json('saliste');
   });
 })
 router.get('/login',(req, res)=>{res.render('login')});
@@ -72,6 +80,7 @@ router.post('/register', (req, res)=>{
     var e = req.body.email;
     var p = req.body.password;
     console.log(e+" - "+p);
+    //fetch +++++++++++++++++++++++++++++++++++++++++++
     auth.createUserWithEmailAndPassword(e, p).then(()=>{
     var id = auth.currentUser.uid; 
     registro_db(id);
@@ -79,7 +88,7 @@ router.post('/register', (req, res)=>{
     .catch( error => {
       console.log("Error al crear usuario: "+error.message);
     });
-  
+  //++++++++++++++++++++++++++++++++++++++++++++++++
 function registro_db(id){
   console.log("Inicio de guardado en la base de datos"+req.body.email);
   var nombre = req.body.nombre;
@@ -93,8 +102,12 @@ function registro_db(id){
   }).then(()=>{
     console.log("guardado con exito")
     //guardar_tienda(id)
-    res.redirect("/");
-  }).catch(e => console.log(e));
+    res.send("giardado");
+  }).catch(e => {
+    console.log(e)
+    res.send(e);
+  }
+  );
 }
 
 
@@ -142,11 +155,16 @@ router.post('/login', (req, res)=>{
     var p = req.body.password;
     auth.signInWithEmailAndPassword(e, p).then(()=>{
         console.log("Autenticado con exito");
-        res.redirect('/');
+        res.send({status:"true"});
     }).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorMessage);
+        res.send(
+          {status:"false",
+          errorMessage:errorMessage,
+          errorCode:errorCode
+        })
     }); 
     /*console.log(req.body)
     res.redirect('/');*/
