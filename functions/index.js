@@ -15,14 +15,14 @@ app.use(express.json());
 
 
 //routes----------------------
-app.use('/api/',require('./routes/index.js'));
+app.use(require('./routes/index.js'));
 
 // end routes---------------
 
 //static files
 app.use(express.static(path.join(__dirname, '../public')));
  
-
+ 
 //descomenta para trabajar en local
 
 var port = app.get("port");

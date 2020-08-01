@@ -51,7 +51,7 @@ router.get('/logout', (req, res)=>{
     res.json('saliste');
   });
 })
-router.get('/login',(req, res)=>{res.render('login')});
+router.get('/login',(req, res)=>{res.redirect('login.html')});
 router.get('/register',(req, res)=>{res.render('register')});
 router.get('/forgot', (req, res)=>{res.render('forgot')});
 router.get('/tienda', (req, res) =>{res.render('tienda')});
