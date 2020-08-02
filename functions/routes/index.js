@@ -43,7 +43,7 @@ router.get('/', (req, res)=>{
         
         } 
     }); */
-     res.json({"task":"2"})
+     res.redirect('/index.html')
 });
 
 router.get('/logout', (req, res)=>{
@@ -52,7 +52,7 @@ router.get('/logout', (req, res)=>{
   });
 })
 router.get('/login',(req, res)=>{res.redirect('login.html')});
-router.get('/register',(req, res)=>{res.render('register')});
+router.get('/register',(req, res)=>{res.render('register.html')});
 router.get('/forgot', (req, res)=>{res.render('forgot')});
 router.get('/tienda', (req, res) =>{res.render('tienda')});
 
@@ -155,20 +155,21 @@ router.post('/login', (req, res)=>{
     var p = req.body.password;
     auth.signInWithEmailAndPassword(e, p).then(()=>{
         console.log("Autenticado con exito");
-        res.send({status:"true"});
+
+        res.json({ estado:"true", email:auth.currentUser.email })
+        
     }).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(errorMessage);
-        res.send(
-          {status:"false",
-          errorMessage:errorMessage,
-          errorCode:errorCode
-        })
+        res.json(
+          {
+            estado:"false",
+            errorMessage:errorMessage,
+            errorCode:errorCode
+        });
     }); 
-    /*console.log(req.body)
-    res.redirect('/');*/
-  });
+});
 
 
 
