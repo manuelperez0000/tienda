@@ -28,32 +28,27 @@ var firebaseConfig = {
   var stor = firebase.storage(); 
 
 //------todas las paginas --------//
-router.get('/', (req, res)=>{ 
-  /* const task = await auth.onAuthStateChanged((user)=> {
-        if (user) {
-        var datos = {
-          status: "log",
-          uid:user.uid,
-          uemail:user.email,
-          uname:user.displayName
-        } 
-        
-        } else {
-          var datos = {}
-        
-        } 
-    }); */
-     res.redirect('/index.html')
+router.get('/', (req, res)=>{ res.redirect('/index.html')});
+
+router.get('/api/', (req, res)=>{ 
+  if(auth.currentUser){
+    var datos = { estado:true, email:auth.currentUser.email }
+     res.json(datos)
+  }else{ res.json({ estado:false,email:null })}
 });
 
 router.get('/logout', (req, res)=>{
   auth.signOut().then(()=>{
-    res.json('saliste');
+    res.json({estado:false});
   });
-})
+});
+
 router.get('/login',(req, res)=>{res.redirect('login.html')});
-router.get('/register',(req, res)=>{res.render('register.html')});
+
+router.get('/register',(req, res)=>{res.redirect('register.html')});
+
 router.get('/forgot', (req, res)=>{res.render('forgot')});
+
 router.get('/tienda', (req, res) =>{res.render('tienda')});
 
 /* router.get('/perfil',     (req, res)=>{res.render('perfil'     )});
@@ -157,7 +152,7 @@ router.post('/login', (req, res)=>{
         console.log("Autenticado con exito");
 
         res.json({ estado:"true", email:auth.currentUser.email })
-        
+
     }).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
