@@ -1,5 +1,6 @@
 <template>
     <div>
+      <navegador></navegador>
       <div class="cover-back">
         <div class="container mt-5 pt-5">
           <div class="row">
@@ -20,6 +21,8 @@
 </template>
 
 <script>
+import navegador from '../components/Navegador.vue'
+
 export default {
   data(){
     return {
@@ -28,6 +31,9 @@ export default {
         password:''
       }
     }
+  },
+  components:{
+    navegador
   },
   methods:{
     hacerLogin(){
@@ -44,12 +50,10 @@ export default {
         var email = datos.email
         console.log(datos.estado)
         if(estado == "true"){
-          window.location.href = '/index.html'
+          window.location.href = '/'
+          console.log(estado)
         }
       })
-
-      this.datos.email = ''
-      this.datos.password = ''
       
   }
 }

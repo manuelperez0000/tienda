@@ -7,12 +7,12 @@ const router = express.Router();
   databaseURL: "https://usuarios-b6168.firebaseio.com"
 }); */
 
-var firebase = require("firebase/app");
+const firebase = require("firebase/app");
 require("firebase/firestore");
 require("firebase/auth");
 require("firebase/storage");
 
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyDRSDPUDAaQZqLAtsJtRnex5uhKBqWb5vw",
     authDomain: "usuarios-b6168.firebaseapp.com",
     databaseURL: "https://usuarios-b6168.firebaseio.com",
@@ -22,28 +22,50 @@ var firebaseConfig = {
     appId: "1:1077345151387:web:5c9c23d441d8924ba8993e"
   };
   // Initialize Firebase
-   firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
   var auth = firebase.auth();
   var db = firebase.firestore();
   var stor = firebase.storage(); 
 
-//------todas las paginas --------//
-router.get('/', (req, res)=>{ res.redirect('/index.html')});
-
-router.get('/api/', (req, res)=>{ 
-  if(auth.currentUser){
-    var datos = { estado:true, email:auth.currentUser.email }
-     res.json(datos)
-  }else{ res.json({ estado:false,email:null })}
-});
+  router.get('/', (req, res)=>{ res.render('index')});
+  
+  router.get('/login',(req, res)=>{res.render('login')});
+  
+  router.get('/api', (req, res)=>{ 
+     if(auth.currentUser){
+      var datos = { estado:true, email:auth.currentUser.email }
+       console.log(datos)
+       res.json(datos)
+    }else{ console.log(datos); res.json({ estado:false,email:null })} 
+  });
 
 router.get('/logout', (req, res)=>{
   auth.signOut().then(()=>{
-    res.json({estado:false});
+    res.render('index');
   });
 });
 
-router.get('/login',(req, res)=>{res.redirect('login.html')});
+
+router.post('/login', (req, res)=>{
+  var e = req.body.email;
+  var p = req.body.password;
+  auth.signInWithEmailAndPassword(e, p).then(()=>{
+      console.log("Autenticado con exito");
+      res.json({ mensaje:"autenticado con exito",estado:"true", email:auth.currentUser.email })
+
+  }).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage);
+      res.json(
+        {
+          estado:"false",
+          mensaje:"No autenticado",
+          errorMessage:errorMessage,
+          errorCode:errorCode
+      });
+  }); 
+});
 
 router.get('/register',(req, res)=>{res.redirect('register.html')});
 
@@ -145,27 +167,31 @@ function registro_db(id){
     
 });
 // --------------------fin registro de usuarios -----------------------
-router.post('/login', (req, res)=>{
-    var e = req.body.email;
-    var p = req.body.password;
-    auth.signInWithEmailAndPassword(e, p).then(()=>{
-        console.log("Autenticado con exito");
 
-        res.json({ estado:"true", email:auth.currentUser.email })
 
-    }).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorMessage);
-        res.json(
-          {
-            estado:"false",
-            errorMessage:errorMessage,
-            errorCode:errorCode
-        });
-    }); 
+router.get('/:id', (req, res)=>{
+  var id = req.params.id
+  
+  let tiendas = db.collection('tiendas');
+let query = tiendas.where('urlunico', '==', id).get()
+.then(snapshot => {
+  if (snapshot.empty) {
+    res.render('404');
+  }
+
+  snapshot.forEach(doc => {
+    res.render('mitienda',{
+      resultado:true,
+      id:doc.id,
+      nombre:doc.data().nombre,
+      banner:doc.data().url
+    });
+  });
+})
+.catch(err => {
+  res.send('Error obteniendo los datos:', err.message);
 });
 
-
+})
 
 module.exports = router;

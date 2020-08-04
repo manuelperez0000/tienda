@@ -2,7 +2,7 @@
     <div>
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark mb-5">
             <div class="container">
-                <a class="navbar-brand" href="/"><h3 class="text-white">TuTiendaEnLinea</h3></a>
+                <a class="navbar-brand" href="/"><h3 class="text-white">TuTiendaEnLinea </h3></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -32,7 +32,27 @@
     </div>
 </template>
 <script>
-export default {
-    props:['email','estado']
-}
+ export default {
+    data(){
+        return{
+            estado:"",
+            email:""
+        }
+    },
+    methods:{
+        inicio(){
+            fetch('/api')
+            .then(res => res.json())
+            .then(data => {
+              console.log(data)
+              this.estado = data.estado
+              this.email = data.email          
+            })
+
+        }
+    },
+    created(){
+        this.inicio()
+        }
+} 
 </script>
