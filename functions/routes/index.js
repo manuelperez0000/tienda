@@ -27,9 +27,9 @@ const firebaseConfig = {
   var db = firebase.firestore();
   var stor = firebase.storage(); 
 
-  router.get('/', (req, res)=>{ res.render('index')});
+  router.get('/', (req, res)=>{ res.send('index')});
   
-  router.get('/login',(req, res)=>{res.render('login')});
+  router.get('/login',(req, res)=>{res.send('login')});
   
   router.get('/api', (req, res)=>{ 
      if(auth.currentUser){
@@ -41,7 +41,7 @@ const firebaseConfig = {
 
 router.get('/logout', (req, res)=>{
   auth.signOut().then(()=>{
-    res.render('index');
+    res.send('index');
   });
 });
 
@@ -69,17 +69,17 @@ router.post('/login', (req, res)=>{
 
 router.get('/register',(req, res)=>{res.redirect('register.html')});
 
-router.get('/forgot', (req, res)=>{res.render('forgot')});
+router.get('/forgot', (req, res)=>{res.send('forgot')});
 
-router.get('/tienda', (req, res) =>{res.render('tienda')});
+router.get('/tienda', (req, res) =>{res.send('tienda')});
 
-/* router.get('/perfil',     (req, res)=>{res.render('perfil'     )});
-router.get('/carrito',    (req, res)=>{res.render('carrito'    )});
-router.get('/menu',       (req, res)=>{res.render('menu'       )});
-router.get('/pagos',      (req, res)=>{res.render('pagos'      )});
-router.get('/categorias', (req, res)=>{res.render('categorias' )});
-router.get('/negocio',    (req, res)=>{res.render('negocio'    )});
-router.get('/editar-menu',(req, res)=>{res.render('editar-menu')}); */
+/* router.get('/perfil',     (req, res)=>{res.send('perfil'     )});
+router.get('/carrito',    (req, res)=>{res.send('carrito'    )});
+router.get('/menu',       (req, res)=>{res.send('menu'       )});
+router.get('/pagos',      (req, res)=>{res.send('pagos'      )});
+router.get('/categorias', (req, res)=>{res.send('categorias' )});
+router.get('/negocio',    (req, res)=>{res.send('negocio'    )});
+router.get('/editar-menu',(req, res)=>{res.send('editar-menu')}); */
 
 router.post('/forgot', (req, res)=>{
  
@@ -168,7 +168,7 @@ function registro_db(id){
 });
 // --------------------fin registro de usuarios -----------------------
 
-
+/* 
 router.get('/:id', (req, res)=>{
   var id = req.params.id
   
@@ -176,11 +176,11 @@ router.get('/:id', (req, res)=>{
 let query = tiendas.where('urlunico', '==', id).get()
 .then(snapshot => {
   if (snapshot.empty) {
-    res.render('404');
+    res.send('404');
   }
 
   snapshot.forEach(doc => {
-    res.render('mitienda',{
+    res.send('mitienda',{
       resultado:true,
       id:doc.id,
       nombre:doc.data().nombre,
@@ -192,6 +192,6 @@ let query = tiendas.where('urlunico', '==', id).get()
   res.send('Error obteniendo los datos:', err.message);
 });
 
-})
+}) */
 
 module.exports = router;

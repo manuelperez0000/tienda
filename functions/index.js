@@ -1,6 +1,6 @@
 //const functions = require('firebase-functions');
 const express = require('express');
-const exphbs = require('express-handlebars');
+/* const exphbs = require('express-handlebars'); */
 const morgan = require('morgan');
 const path = require('path');
 
@@ -8,13 +8,13 @@ const app = express();
 
 //setings
 
-app.set("port",process.env.PORT || 4000);
+app.set("port",process.env.PORT || 4000);/* 
 app.set("views", path.join(__dirname, 'views'));
 app.engine('.hbs', exphbs({
     defaultLayout:'main',
     extname: '.hbs'
 }));
-app.set('view engine', '.hbs');
+app.set('view engine', '.hbs'); */
 
 //midlewars
 app.use(morgan('dev'));

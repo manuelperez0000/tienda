@@ -7,12 +7,12 @@ module.exports = {
     path: `${__dirname}/public/js/webpack`,
     filename: "bundle.js"
   },
-   mode:"development",
+  /*  mode:"development",
   entry: "./src/app/login.js",
   output: {
     path: `${__dirname}/public/js/webpack`,
     filename: "bundleLogin.js"
-  }, 
+  },  */
   module: {
     rules: [
       {
