@@ -2,17 +2,11 @@ const { VueLoaderPlugin } = require("vue-loader");
 
 module.exports = {
   mode:"development",
-  entry: "./src/app/index.js",
+  entry: "./src/app/vueNoCompiled.js",
   output: {
     path: `${__dirname}/public/js/webpack`,
-    filename: "bundle.js"
+    filename: "vueApp.js"
   },
-  /*  mode:"development",
-  entry: "./src/app/login.js",
-  output: {
-    path: `${__dirname}/public/js/webpack`,
-    filename: "bundleLogin.js"
-  },  */
   module: {
     rules: [
       {
