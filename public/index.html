@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutiendaenlinea</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="css/style.css" rel="stylesheet" media="screen">
+     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script> <!---->
+   </head>
+   <body class="index-body">
+      
+      <div id="app">
+         <h1 class="text-white">Hello App!</h1>
+         <p>
+           <!-- use router-link component for navigation. -->
+           <!-- specify the link by passing the `to` prop. -->
+           <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
+           <router-link class="text-white" to="/foo">Go to Foo</router-link>
+           <router-link to="/bar">Go to Bar</router-link>
+           <router-link to="/Cuerpo">Cuerpo</router-link>
+         </p>
+         <!-- route outlet -->
+         <!-- component matched by the route will render here -->
+         <router-view></router-view>
+       </div>
+      <script src="js/vuescript.js"></script>
+      <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="js/webpack/bundle.js"></script> 
+      <script src="https://kit.fontawesome.com/4ab87b7dce.js" crossorigin="anonymous"></script>-->
+</body>
+</html> 

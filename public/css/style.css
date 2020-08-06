@@ -11,3 +11,9 @@
   color:red;
   background-color: black;
 }
+.index-body{
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.774) 30%,rgba(0, 0, 0, 0.781) 90%), url('../img/back.jpg');
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
